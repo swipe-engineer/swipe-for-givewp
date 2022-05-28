@@ -17,5 +17,5 @@ Accept payment using SwipeGo by using this plugin.
 
 1. Login to **WordPress Dashboard**
 2. Navigate to **Donations >> Settings >> Payment Gateways**
-3. Enable **SwipeGo - FPX**
+3. Enable **SwipeGo**
 4. Navigate to **SwipeGo Settings**
