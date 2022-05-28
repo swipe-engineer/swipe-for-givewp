@@ -1,0 +1,65 @@
+@font-face {
+    font-family: 'Qanelas Soft';
+    src: url('../fonts/QanelasSoftRegular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Qanelas Soft';
+    src: url('../fonts/QanelasSoftMedium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Qanelas Soft';
+    src: url('../fonts/QanelasSoftSemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Qanelas Soft';
+    src: url('../fonts/QanelasSoftBold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+.toplevel_page_swipego {
+    background-color: #f4f4f5;
+}
+.swipego-page {
+    font-family: 'Qanelas Soft' !important;
+    padding-right: 20px;
+}
+@media screen and (max-width: 782px) {
+    .swipego-page {
+        padding-right: 10px;
+    }   
+}
+.swipego-page h3 {
+    font-size: 1.17em !important;
+}
+.swipego-page input[type=checkbox]:checked::before,
+.swipego-page input[type=radio]:checked::before {
+    content: '' !important;
+}
+.swipego-page input[name=environment] {
+    position: relative;
+}
+.swipego-page input[name=environment]:checked::before {
+    content: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 16 16' fill='%23623f99' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E") !important;
+    background-color: transparent !important;
+    width: 2em !important;
+    height: 2em !important;
+    line-height: normal !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    position: absolute;
+    top: -0.2rem;
+    left: -0.3em;
+}
+img {
+    border: none !important;
+}
+input:checked+.toggle-bg {
+    background: #623f99 !important;
+    border-color: #623f99 !important;
+}

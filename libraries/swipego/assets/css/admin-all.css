@@ -1,0 +1,6 @@
+#adminmenu .toplevel_page_swipego .wp-menu-image img {
+    width: 20px !important;
+    vertical-align: baseline !important;
+    padding-top: 11px !important;
+    display: inline !important;
+}
