@@ -1,6 +1,6 @@
-# ToyyibPay for GiveWP
+# SwipeGo for GiveWP
 
-Accept payment using ToyyibPay by using this plugin.
+Accept payment using SwipeGo by using this plugin.
 
 ## Requirements
 
@@ -17,5 +17,5 @@ Accept payment using ToyyibPay by using this plugin.
 
 1. Login to **WordPress Dashboard**
 2. Navigate to **Donations >> Settings >> Payment Gateways**
-3. Enable **ToyyibPay - FPX**
-4. Navigate to **ToyyibPay Settings**
+3. Enable **SwipeGo - FPX**
+4. Navigate to **SwipeGo Settings**
