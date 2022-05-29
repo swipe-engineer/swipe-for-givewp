@@ -54,16 +54,22 @@ class Give_Swipego_Settings_Metabox
 
         //this gateway isn't active
         if (!$is_gateway_active) {
-            //return settings and bounce
             return $settings;
         }
 
         //Fields
+        $all_business = swipego_gwp_get_businesses();
+
+        $all_business[0] = array(
+            'id' => '0',
+            'name' => __('Select a business', 'give-swipego'),
+        );
+
         $businesses = array_map(
             function ($business) {
                 return $business['name'];
             },
-            swipego_gwp_get_businesses()
+            $all_business
         );
 
         $give_swipego_settings = array(

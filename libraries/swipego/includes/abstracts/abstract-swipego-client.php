@@ -90,10 +90,10 @@ abstract class Swipego_Client {
         );
 
         // Internal API use access token while public API use API key
-        if ( $this->access_token ) {
-            $headers['Authorization'] = 'Bearer ' . $this->access_token;
-        } elseif ( $this->api_key ) {
+        if ( $this->api_key ) {
             $headers['Authorization'] = 'Bearer ' . $this->api_key;
+        } elseif ( $this->access_token ) {
+            $headers['Authorization'] = 'Bearer ' . $this->access_token;
         }
 
         return $headers;

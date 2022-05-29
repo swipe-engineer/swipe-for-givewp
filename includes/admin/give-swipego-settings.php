@@ -106,6 +106,11 @@ class Give_swipeGo_Settings
 
         $all_business = swipego_gwp_get_businesses();
 
+        $all_business[0] = array(
+            'id' => '0',
+            'name' => __('Select a business', 'give-swipego'),
+        );
+
         $businesses = array_map(
             function ($business) {
                 return $business['name'];
@@ -119,10 +124,6 @@ class Give_swipeGo_Settings
         if (isset($business['integration_id'])) {
             $integration_id = $business['integration_id'];
             $webhook        = $this->swipego->get_webhook($business_id, $integration_id);
-        }
-
-        if(empty($businesses)){
-            $businesses = array('No business selected');
         }
 
         $give_swipego_settings = array(
@@ -199,7 +200,6 @@ class Give_swipeGo_Settings
     // Update WooCommerce settings
     public function update_settings()
     {
-
         check_ajax_referer('swipego_gwp_update_settings_nonce', 'nonce');
 
         $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : null;
@@ -217,6 +217,7 @@ class Give_swipeGo_Settings
         }
 
         $business_id = isset($_POST['business_id']) ? sanitize_text_field($_POST['business_id']) : null;
+        $environment = isset($_POST['environment']) ? sanitize_text_field($_POST['environment']) : null;
 
         if (is_null($business_id)) {
             wp_send_json_error(array(
@@ -224,10 +225,10 @@ class Give_swipeGo_Settings
             ), 400);
         }
 
-        $swipego        = new Swipego_GWP_API();
-        $business       = swipego_gwp_get_business($business_id);
+        if ($environment) $this->swipego->set_environment($environment);
+        $business       = $this->swipego->swipego_gwp_get_business($business_id);
         $integration_id = isset($business['integration_id']) ? $business['integration_id'] : null;
-        $webhook        = $swipego->get_webhook($business_id, $integration_id);
+        $webhook        = $this->swipego->get_webhook($business_id, $integration_id);
 
         wp_send_json_success(
             array(
@@ -257,10 +258,13 @@ class Give_swipeGo_Settings
             ), 400);
         }
 
-        $business_id = isset($_POST['business_id']) ? sanitize_text_field($_POST['business_id']) : null;
-        $business_id = $business_id ?? give_get_option('swipego_business_id');
-        $business    = swipego_gwp_get_business($business_id);
+        $business_id    = isset($_POST['business_id']) ? sanitize_text_field($_POST['business_id']) : null;
+        $business_id    = $business_id ?? give_get_option('swipego_business_id');
+        $business       = swipego_gwp_get_business($business_id);
+        $environment    = isset($_POST['environment']) ? sanitize_text_field($_POST['environment']) : null;
         $integration_id = $business['integration_id'];
+
+        if ($environment) $this->swipego->set_environment($environment);
 
         if (!$business_id) {
             wp_send_json_error(array(
@@ -274,9 +278,7 @@ class Give_swipeGo_Settings
             ), 400);
         }
 
-        $swipego = new Swipego_GWP_API();
-
-        $webhook = $swipego->set_webhook($business_id, $integration_id);
+        $webhook = $this->swipego->set_webhook($business_id, $integration_id);
 
         wp_send_json_success($webhook);
     }

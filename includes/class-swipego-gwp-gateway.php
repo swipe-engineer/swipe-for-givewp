@@ -42,18 +42,38 @@ class Swipego_GWP_Gateway
 
         add_filter('give_payment_gateways', array($this, 'register_gateway'));
 
+        if(!give_is_gateway_active('swipego')) return;
+
         add_action('init', array($this, 'return_redirect'));
         add_action('init', array($this, 'return_callback'));
         add_action('give_gateway_swipego', array($this, 'process_payment'));
         add_action('give_swipego_cc_form', array($this, 'give_swipego_cc_form'));
         add_filter('give_enabled_payment_gateways', array($this, 'give_filter_swipe_gateway'), 10, 2);
         add_filter('give_payment_confirm_swipego', array($this, 'give_swipego_success_page_content'));
+        add_action('give_donation_form_before_email', array($this, 'register_account_fields'));
 
         if (is_admin()) {
             include SWIPEGO_GWP_PATH . '/includes/admin/give-swipego-activation.php';
             include SWIPEGO_GWP_PATH . '/includes/admin/give-swipego-settings.php';
             include SWIPEGO_GWP_PATH . '/includes/admin/give-swipego-settings-metabox.php';
         }
+    }
+
+    function register_account_fields($form_id)
+    {
+        $give_user_info = _give_get_prefill_form_field_values( $form_id );
+        $phone          = ! empty( $give_user_info['give_phone'] ) ? $give_user_info['give_phone'] : '';
+?>
+        <p id="give-phone-wrap" class="form-row form-row-wide">
+            <label class="give-label" for="give-phone">
+                <?php esc_attr_e('Phone', 'give'); ?>
+                <span class="give-required-indicator">*</span>
+                <?php echo Give()->tooltips->render_help(__('phone is used to personalize your donation record.', 'give')); ?>
+            </label>
+
+            <input class="give-input required" type="tel" name="give_phone" id="give-phone" placeholder="<?php esc_attr_e('Phone', 'give'); ?>" value="<?php echo esc_html( $phone ); ?>" required/>
+        </p>
+<?php
     }
 
     // Initialize API
@@ -103,27 +123,28 @@ class Swipego_GWP_Gateway
             return false;
         }
 
-        $payment_id = $data['payment_link_reference'];
-        $form_id = give_get_payment_form_id($payment_id);
-
+        $payment_id      = $data['payment_link_reference'];
+        $form_id         = give_get_payment_form_id($payment_id);
         $custom_donation = give_get_meta($form_id, 'swipego_customize_swipego_donations', true, 'global');
-        $status = give_is_setting_enabled($custom_donation, 'enabled');
-
+        $status          = give_is_setting_enabled($custom_donation, 'enabled');
 
         try {
+
             swipego_gwp_logger('Verifying hash for form #' . $form_id);
 
             $getData = $this->getData($form_id);
-            $this->swipego->set_signature_key($getData['signature_key']);
 
+            $this->swipego->set_signature_key($getData['signature_key']);
             $this->swipego->validate_ipn_response($data);
         } catch (Exception $e) {
+
             swipego_gwp_logger($e->getMessage());
+
             wp_die($e->getMessage(), 'Swipe IPN', array('response' => 200));
         } finally {
+
             swipego_gwp_logger('Verified hash for form #' . $form_id);
         }
-
 
         if ($data['payment_link_id'] !== give_get_meta($payment_id, 'swipego_id', true)) {
             exit('No Payment Link found');
@@ -155,17 +176,18 @@ class Swipego_GWP_Gateway
             exit;
         }
 
-        $payment_id = preg_replace('/\D/', '', $_GET['payment_id']);
-        $form_id = give_get_payment_form_id($payment_id);
-
+        $payment_id      = preg_replace('/\D/', '', $_GET['payment_id']);
+        $form_id         = give_get_payment_form_id($payment_id);
         $custom_donation = give_get_meta($form_id, 'swipego_customize_swipego_donations', true, 'global');
-        $status = give_is_setting_enabled($custom_donation, 'enabled');
+        $status          = give_is_setting_enabled($custom_donation, 'enabled');
 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             $response = file_get_contents('php://input');
             $response = json_decode($response, true);
         } else {
+
             $response = $_REQUEST;
         }
 
@@ -181,11 +203,15 @@ class Swipego_GWP_Gateway
         }
 
         if ($data['payment_status'] == '1') {
-            //give_send_to_success_page();
-            $return = add_query_arg(array(
-                'payment-confirmation' => 'swipego',
-                'payment-id' => $payment_id,
-            ), get_permalink(give_get_option('success_page')));
+            $return = add_query_arg(
+                array(
+                    'payment-confirmation' => 'swipego',
+                    'payment-id' => $payment_id,
+                ),
+                get_permalink(
+                    give_get_option('success_page')
+                )
+            );
         } else {
             $return = give_get_failed_transaction_uri('?payment-id=' . $payment_id);
         }
@@ -208,7 +234,15 @@ class Swipego_GWP_Gateway
         // Validate nonce.
         give_validate_nonce($purchase_data['gateway_nonce'], 'give-gateway');
 
+        $swipego_key = $this->get_swipego($purchase_data);
         $payment_id = $this->create_payment($purchase_data);
+
+        // Check payment.
+        if (!$swipego_key['business_id'] || !$swipego_key['api_key']) {
+            // If errors are present, send the user back to the purchase page so they can be corrected
+            give_send_back_to_checkout('?payment-mode=' . $purchase_data['post_data']['give-gateway']);
+        }
+
 
         // Check payment.
         if (empty($payment_id)) {
@@ -221,8 +255,6 @@ class Swipego_GWP_Gateway
             give_send_back_to_checkout();
         }
 
-        $swipego_key = $this->get_swipego($purchase_data);
-
         $this->swipego->set_api_key($swipego_key['api_key']);
         $this->swipego->set_environment($swipego_key['environment']);
 
@@ -231,7 +263,7 @@ class Swipego_GWP_Gateway
             'currency'     => 'MYR',
             'amount'       => $purchase_data['price'],
             'title'        => 'payment for GiveWP : ' . $payment_id,
-            'phone_no'     => '+60135323922', //$purchase_data['post_data']['give_phone'],
+            'phone_no'     => $purchase_data['post_data']['give_phone'],
             'description'  => 'description payment for GiveWP : ' . $payment_id,
             'redirect_url' => self::get_listener_url($payment_id),
             'reference'    => $payment_id,
