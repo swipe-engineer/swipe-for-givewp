@@ -69,7 +69,7 @@ class Give_Swipego_Settings_Metabox
             function ($business) {
                 return $business['name'];
             },
-            $all_business
+            array_reverse($all_business, true)
         );
 
         $give_swipego_settings = array(

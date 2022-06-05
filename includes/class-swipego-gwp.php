@@ -33,6 +33,7 @@ class SwipeGo_GWP
 
     public function register_deactivation_hook()
     {
+        swipego_delete_access_token();
         echo 'register_deactivation_hook';
     }
 

@@ -6,6 +6,8 @@ jQuery(function ($) {
     init_swipego_meta();
   });
 
+  $('#swipego_business_id option[value="0"]').prop('disabled', true)
+
   $('#swipego_webhook_button').on('click', function (e) {
 
     e.preventDefault();

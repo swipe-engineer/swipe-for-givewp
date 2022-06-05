@@ -115,7 +115,7 @@ class Give_swipeGo_Settings
             function ($business) {
                 return $business['name'];
             },
-            $all_business
+            array_reverse($all_business, true)
         );
 
         $business_id    = give_get_option('swipego_business_id');
