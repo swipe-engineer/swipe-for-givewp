@@ -1,4 +1,7 @@
 <?php
+
+use Give\Helpers\Form\Template;
+
 if (!defined('ABSPATH')) exit;
 
 class Swipego_GWP_Gateway
@@ -194,7 +197,7 @@ class Swipego_GWP_Gateway
                 'payment_link_id' => isset($_GET['payment_link_id']) ? sanitize_text_field($_GET['payment_link_id']) : null,
                 'payment_status' => isset($_GET['payment_status']) ? sanitize_text_field($_GET['payment_status']) : null,
             ];
-            
+
         }
 
         $data = $response;
@@ -264,13 +267,16 @@ class Swipego_GWP_Gateway
         $this->swipego->set_api_key($swipego_key['api_key']);
         $this->swipego->set_environment($swipego_key['environment']);
 
+        $options = Template::getOptions($purchase_data['post_data']['give-form-id']);
+        $description = $options['visual_appearance']['description'] ?? $options['introduction']['description'];
+
         $parameter = array(
             'email'        => $purchase_data['user_email'],
             'currency'     => 'MYR',
             'amount'       => $purchase_data['price'],
-            'title'        => 'payment for GiveWP : ' . $payment_id,
+            'title'        => $purchase_data['post_data']['give-form-title'],
             'phone_no'     => $purchase_data['post_data']['give_phone'],
-            'description'  => 'description payment for GiveWP : ' . $payment_id,
+            'description'  => $description ?? 'You are paying for the donation ' . $purchase_data['post_data']['give-form-title'],
             'redirect_url' => self::get_listener_url($payment_id),
             'reference'    => $payment_id,
             'reference_2'  => 'givewp',
