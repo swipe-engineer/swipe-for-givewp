@@ -29,6 +29,13 @@
                             <div class="-mt-1 font-sans text-sm font-semibold"><?php esc_html_e( 'Swipe for Gravity Forms', 'swipego' ) ?></div>
                         </div>
                     </a>
+                   <a href="<?php echo esc_attr( $swipego_give_plugin['url'] ); ?>" class="w-full sm:w-auto flex bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5">
+                        <img class="w-7 h-7 mr-3" src="<?php echo esc_attr( SWIPEGO_URL . 'assets/images/logo-give.svg' ); ?>" alt="Give logo">
+                        <div class="text-left">
+                            <div class="mb-1 text-xs"><?php echo esc_html( $swipego_give_plugin['label'] ); ?></div>
+                            <div class="-mt-1 font-sans text-sm font-semibold"><?php esc_html_e( 'Swipe for Give WP', 'swipego' ) ?></div>
+                        </div>
+                    </a>
                 </div>
             </div>
 

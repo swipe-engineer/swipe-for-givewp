@@ -83,7 +83,8 @@ class Swipego_Admin
         }
 
         $swipego_wc_plugin = $this->get_plugin_url('woocommerce/woocommerce.php', 'swipe-for-woocommerce/swipego-wc.php', 'wc', __('WooCommerce', 'swipego'));
-        $swipego_gf_plugin = $this->get_plugin_url('gravityforms/gravityforms.php', 'swipe-for-gravityforms/swipego-gf.php', 'gf', __('Gravity Forms', 'swipego'));
+        $swipego_gf_plugin = $this->get_plugin_url('gravityforms/gravityforms.php', 'swipe-for-gravity-forms/swipego-gf.php', 'gf', __('Gravity Forms', 'swipego'));
+        $swipego_give_plugin = $this->get_plugin_url('give/give.php', 'swipe-for-givewp/swipego-gwp.php', 'gwp', __('Give WP', 'swipego'));
 
         ob_start();
         require_once(SWIPEGO_PATH . 'admin/views/dashboard.php');
@@ -101,8 +102,15 @@ class Swipego_Admin
         $is_main_plugin_installed = swipego_is_plugin_installed($main_plugin_file);
         $is_swipego_plugin_installed = swipego_is_plugin_installed($swipego_plugin_file);
 
-        $swipego_plugin_download_url = '';
+        $swipego_plugin_download_url = explode('/', $swipego_plugin_file)[0] ?? '';
         $main_plugin_download_url = '';
+
+        if ($is_main_plugin_activated && $is_swipego_plugin_activated && $settings_page_slug == 'gwp') {
+            return array(
+                'label' => __('Configure', 'swipego'),
+                'url'   => admin_url('edit.php?post_type=give_forms&page=give-settings&tab=gateways')
+            );
+        }
 
         // If main plugin and Swipe plugin is activated, return settings page URL
         if ($is_main_plugin_activated && $is_swipego_plugin_activated) {
