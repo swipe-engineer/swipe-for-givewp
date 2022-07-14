@@ -182,14 +182,9 @@ class Swipego_GWP_Gateway
         $status          = give_is_setting_enabled($custom_donation, 'enabled');
 
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $response = file_get_contents('php://input');
-            $response = json_decode($response, true);
-        } else {
-
-            $response = $_REQUEST;
-        }
+        $response = file_get_contents('php://input');
+        $response = json_decode($response, true);
 
         $data = $response;
 
