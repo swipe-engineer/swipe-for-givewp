@@ -42,7 +42,7 @@ class Swipego_GWP_Gateway
 
         add_filter('give_payment_gateways', array($this, 'register_gateway'));
 
-        if(!give_is_gateway_active('swipego')) return;
+        if (!give_is_gateway_active('swipego')) return;
 
         add_action('init', array($this, 'return_redirect'));
         add_action('init', array($this, 'return_callback'));
@@ -61,8 +61,8 @@ class Swipego_GWP_Gateway
 
     function register_account_fields($form_id)
     {
-        $give_user_info = _give_get_prefill_form_field_values( $form_id );
-        $phone          = ! empty( $give_user_info['give_phone'] ) ? $give_user_info['give_phone'] : '';
+        $give_user_info = _give_get_prefill_form_field_values($form_id);
+        $phone          = !empty($give_user_info['give_phone']) ? $give_user_info['give_phone'] : '';
 ?>
         <p id="give-phone-wrap" class="form-row form-row-wide">
             <label class="give-label" for="give-phone">
@@ -71,7 +71,7 @@ class Swipego_GWP_Gateway
                 <?php echo Give()->tooltips->render_help(__('phone is used to personalize your donation record.', 'give')); ?>
             </label>
 
-            <input class="give-input required" type="tel" name="give_phone" id="give-phone" placeholder="<?php esc_attr_e('Phone', 'give'); ?>" value="<?php echo esc_html( $phone ); ?>" required/>
+            <input class="give-input required" type="tel" name="give_phone" id="give-phone" placeholder="<?php esc_attr_e('Phone', 'give'); ?>" value="<?php echo esc_html($phone); ?>" required />
         </p>
 <?php
     }
@@ -182,9 +182,20 @@ class Swipego_GWP_Gateway
         $status          = give_is_setting_enabled($custom_donation, 'enabled');
 
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        $response = file_get_contents('php://input');
-        $response = json_decode($response, true);
+            $response = file_get_contents('php://input');
+            $response = json_decode($response, true);
+
+        } else {
+
+            $response = [
+                'attempt_id' => isset($_GET['attempt_id']) ? sanitize_text_field($_GET['attempt_id']) : null,
+                'payment_link_id' => isset($_GET['payment_link_id']) ? sanitize_text_field($_GET['payment_link_id']) : null,
+                'payment_status' => isset($_GET['payment_status']) ? sanitize_text_field($_GET['payment_status']) : null,
+            ];
+            
+        }
 
         $data = $response;
 
