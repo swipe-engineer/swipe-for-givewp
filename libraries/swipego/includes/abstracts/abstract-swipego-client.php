@@ -1,16 +1,7 @@
 <?php
 if ( !defined( 'ABSPATH' ) ) exit;
 
-abstract class Swipego_Client {
-
-    // const PRODUCTION_URL = 'https://stg-api.swipego.io/api/';
-    // const SANDBOX_URL    = 'https://stg-test-api.swipego.io/api/';
-
-    // const PRODUCTION_URL = 'https://dev-api.swipego.io/api/';
-    // const SANDBOX_URL    = 'https://dev-test-api.swipego.io/api/';
-
-    // const PRODUCTION_URL = 'http://f70-backend.test/api/';
-    // const SANDBOX_URL    = 'http://f70-backend-test.test/api/';
+abstract class Swipego_Client_GWP {
 
     const PRODUCTION_URL = 'https://api.swipego.io/api/';
     const SANDBOX_URL    = 'https://test-api.swipego.io/api/';

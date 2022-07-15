@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
-class Swipego_API extends Swipego_Client
+class Swipego_API_GWP extends Swipego_Client_GWP
 {
 
     const LISTENER_PASSPHRASE = 'swipego_givewp_webhook_passphrase';

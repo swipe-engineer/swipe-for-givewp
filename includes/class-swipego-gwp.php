@@ -19,6 +19,8 @@ class SwipeGo_GWP
         if (swipego_is_logged_in() && swipego_is_plugin_activated('give/give.php')) {
 
             // API
+            require_once( SWIPEGO_GWP_PATH . 'libraries/swipego/includes/abstracts/abstract-swipego-client.php' );
+            require_once( SWIPEGO_GWP_PATH . 'libraries/swipego/includes/class-swipego-api.php' );
             require_once( SWIPEGO_GWP_PATH . 'includes/class-swipego-gwp-api.php' );
 
             // Initialize payment gateway

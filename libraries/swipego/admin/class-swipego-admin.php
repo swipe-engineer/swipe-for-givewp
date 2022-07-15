@@ -228,7 +228,7 @@ class Swipego_Admin
 
         try {
 
-            $swipego = new Swipego_API();
+            $swipego = new Swipego_API_GWP();
 
             list($code, $response) = $swipego->sign_in(array(
                 'email'    => $email,
