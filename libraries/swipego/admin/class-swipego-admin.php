@@ -96,14 +96,21 @@ class Swipego_Admin
     private function get_plugin_url($main_plugin_file, $swipego_plugin_file, $settings_page_slug, $main_plugin_name)
     {
 
+        $main_plugin = explode('/', $main_plugin_file)[0] ?? '';
+        $swipe_plugin = explode('/', $swipego_plugin_file)[0] ?? '';
+
         $is_main_plugin_activated = swipego_is_plugin_activated($main_plugin_file);
         $is_swipego_plugin_activated = swipego_is_plugin_activated($swipego_plugin_file);
 
         $is_main_plugin_installed = swipego_is_plugin_installed($main_plugin_file);
         $is_swipego_plugin_installed = swipego_is_plugin_installed($swipego_plugin_file);
 
-        $swipego_plugin_download_url = explode('/', $swipego_plugin_file)[0] ?? '';
-        $main_plugin_download_url = '';
+        $main_plugin_download_url = 'https://wordpress.org/plugins/' . $main_plugin;
+        $swipego_plugin_download_url = 'https://wordpress.org/plugins/' . $swipe_plugin;
+
+        if ($main_plugin == 'gravityforms') {
+            $main_plugin_download_url = 'https://www.gravityforms.com';
+        }
 
         if ($is_main_plugin_activated && $is_swipego_plugin_activated && $settings_page_slug == 'gwp') {
             return array(
@@ -132,7 +139,7 @@ class Swipego_Admin
         if (!$is_swipego_plugin_installed) {
             return array(
                 'label' => __('Download', 'swipego'),
-                'url'   => esc_url('https://wordpress.org/plugins/' . $swipego_plugin_download_url)
+                'url'   => esc_url($swipego_plugin_download_url)
             );
         }
 
@@ -150,7 +157,7 @@ class Swipego_Admin
         if (!$is_main_plugin_installed) {
             return array(
                 'label' => sprintf(__('Download %s', 'swipego'), $main_plugin_name),
-                'url'   => esc_url('https://wordpress.org/plugins/' . $main_plugin_download_url)
+                'url'   => esc_url($main_plugin_download_url)
             );
         }
     }
