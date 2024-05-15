@@ -23,7 +23,7 @@ class SwipeGo_GWP
             require_once( SWIPEGO_GWP_PATH . 'libraries/swipego/includes/class-swipego-api.php' );
             require_once( SWIPEGO_GWP_PATH . 'includes/class-swipego-gwp-api.php' );
         
-            if ( swipego_get_integration() ) {
+            if ( swipego_is_logged_in() || swipego_get_integration() ) {
                 
                 // Initialize payment gateway
                 require_once( SWIPEGO_GWP_PATH . 'includes/class-swipego-gwp-init.php' );
