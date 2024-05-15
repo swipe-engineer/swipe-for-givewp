@@ -60,7 +60,7 @@ class Give_swipeGo_Settings
     public function setup_hooks()
     {
         $this->section_id = 'swipego';
-        $this->section_label = __('swipeGo', 'give-swipego');
+        $this->section_label = __('SwipeGo', 'give-swipego');
         $this->swipego = new Swipego_GWP_API();
 
         if (is_admin()) {

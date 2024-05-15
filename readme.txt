@@ -3,7 +3,7 @@ Contributors: teamswipe
 Tags: swipego, donation
 Requires at least: 4.2
 Tested up to: 6.0.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2.1
 License URI: https://opensource.org/licenses/LGPL-2.1
 
@@ -89,6 +89,9 @@ Explore us: [www.swipego.io](https://www.swipego.io)
 Social Media: [Facebook](https://www.facebook.com/swipego/)
 
 == Changelog ==
+
+= 1.0.1 - 2024-05-16 =
+* Fix expired token
 
 = 1.0.0 =
 * add from version 1.0.1 Open Stack.

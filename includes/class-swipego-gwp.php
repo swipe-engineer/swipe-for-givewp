@@ -6,26 +6,32 @@ class SwipeGo_GWP
     // Load dependencies
     public function __construct()
     {
-
+        
         // Libraries
         require_once(SWIPEGO_GWP_PATH . 'libraries/swipego/class-swipego.php');
-
-        // Functions
-        require_once(SWIPEGO_GWP_PATH . 'includes/functions.php');
-
-        // Admin
-        require_once(SWIPEGO_GWP_PATH . 'admin/class-swipego-gwp-admin.php');
-
-        if (swipego_is_logged_in() && swipego_is_plugin_activated('give/give.php')) {
-
+        
+        if ( swipego_is_plugin_activated('give/give.php')) {
+            
+            // Functions
+            require_once(SWIPEGO_GWP_PATH . 'includes/functions.php');
+    
+            // Admin
+            require_once(SWIPEGO_GWP_PATH . 'admin/class-swipego-gwp-admin.php');
+            
             // API
             require_once( SWIPEGO_GWP_PATH . 'libraries/swipego/includes/abstracts/abstract-swipego-client.php' );
             require_once( SWIPEGO_GWP_PATH . 'libraries/swipego/includes/class-swipego-api.php' );
             require_once( SWIPEGO_GWP_PATH . 'includes/class-swipego-gwp-api.php' );
-
-            // Initialize payment gateway
-            require_once( SWIPEGO_GWP_PATH . 'includes/class-swipego-gwp-init.php' );
+        
+            if ( swipego_get_integration() ) {
+                
+                // Initialize payment gateway
+                require_once( SWIPEGO_GWP_PATH . 'includes/class-swipego-gwp-init.php' );
+    
+            }
+            
         }
+        
     }
 
     public function register_activation_hook()

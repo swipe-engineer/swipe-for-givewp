@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Swipe for GiveWP
  * Description:       Swipe payment integration for GiveWP.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 4.6
  * Requires PHP:      7.0
  * Author:            Fintech Worldwide Sdn. Bhd.
