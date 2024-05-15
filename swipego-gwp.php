@@ -19,7 +19,7 @@ define( 'SWIPEGO_GWP_FILE', __FILE__ );
 define( 'SWIPEGO_GWP_URL', plugin_dir_url( SWIPEGO_GWP_FILE ) );
 define( 'SWIPEGO_GWP_PATH', plugin_dir_path( SWIPEGO_GWP_FILE ) );
 define( 'SWIPEGO_GWP_BASENAME', plugin_basename( SWIPEGO_GWP_FILE ) );
-define( 'SWIPEGO_GWP_VERSION', '1.0.0' );
+define( 'SWIPEGO_GWP_VERSION', '1.0.1' );
 
 // // Plugin core class
 require( SWIPEGO_GWP_PATH . 'includes/class-swipego-gwp.php' );

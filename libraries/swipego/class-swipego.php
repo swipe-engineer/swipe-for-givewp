@@ -31,3 +31,10 @@ if ( !class_exists( 'Swipego' ) ) {
     }
     new Swipego();
 }
+
+if ( !function_exists('swipego_get_integration') ) {
+    function swipego_get_integration()
+    {
+        return true;
+    }
+}
